@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShortLink Redirect - Portal Premium</title>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+        
+        /* Background effects */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(40,40,40,0.2) 0%, rgba(0,0,0,0) 70%);
+        }
+        
+        .circle-1 {
+            width: 300px;
+            height: 300px;
+            top: -100px;
+            left: -100px;
+            background: radial-gradient(circle, rgba(60,60,60,0.15) 0%, rgba(0,0,0,0) 70%);
+        }
+        
+        .circle-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -250px;
+            right: -250px;
+            background: radial-gradient(circle, rgba(50,50,50,0.1) 0%, rgba(0,0,0,0) 70%);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            animation: fadeIn 0.8s ease forwards;
+        }
+        
+        .container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.1), transparent);
+        }
+        
+        /* Typography */
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #fff, #aaa);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+        
+        /* Link Info */
+        .link-info {
+            background: linear-gradient(145deg, #1e2a3e, #2a3b52);
+            border-radius: 16px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: left;
+            border-left: 4px solid #4facfe;
+        }
+        
+        .info-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #4facfe;
+            min-width: 120px;
+        }
+        
+        .info-value {
+            color: #e0e0e0;
+            word-break: break-all;
+        }
+        
+        .destination-url {
+            color: #00f2fe;
+            font-weight: 500;
+        }
+        
+        /* Countdown */
+        .countdown {
+            font-size: 1.4rem;
+            margin: 30px 0;
+            font-weight: 600;
+            color: #ffcc00;
+        }
+        
+        #countdown {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+        
+        /* Buttons */
+        .btn {
+            background: linear-gradient(to right, #4facfe 0%, #00f2fe 100%);
+            border: none;
+            border-radius: 50px;
+            padding: 18px 45px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            margin: 10px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+        }
+        
+        .btn:active {
+            transform: translateY(2px);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, #555, #333);
+            color: #ccc;
+        }
+        
+        .btn-secondary:hover {
+            background: linear-gradient(to right, #666, #444);
+            color: #fff;
+        }
+        
+        /* Security Info */
+        .security-info {
+            background: rgba(30, 30, 30, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 4px solid #ffcc00;
+        }
+        
+        .security-info h3 {
+            color: #ffcc00;
+            margin-bottom: 15px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .info-item {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                margin-bottom: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <h1>ShortLink Redirect</h1>
+        <p>Anda akan diarahkan ke tujuan berikut melalui layanan shortlink kami</p>
+        
+        <div class="link-info">
+            <div class="info-item">
+                <span class="info-label">Judul:</span>
+                <span class="info-value" id="linkTitle">Memuat...</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Tujuan:</span>
+                <span class="info-value">
+                    <a href="#" id="destinationUrl" class="destination-url">Memuat...</a>
+                </span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Dibuat pada:</span>
+                <span class="info-value" id="createdAt">Memuat...</span>
+            </div>
+        </div>
+        
+        <div class="countdown">
+            <p>Redirect otomatis dalam <span id="countdown">10</span> detik</p>
+        </div>
+        
+        <div>
+            <button class="btn pulse" id="continueBtn">Lanjutkan Sekarang</button>
+            <button class="btn btn-secondary" id="cancelBtn">Batalkan</button>
+        </div>
+        
+        <div class="security-info">
+            <h3>🛡️ Keamanan Link</h3>
+            <p>Link ini telah diverifikasi oleh sistem kami. Pastikan alamat tujuan sesuai dengan ekspektasi Anda sebelum melanjutkan.</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const linkTitle = document.getElementById('linkTitle');
+            const destinationUrl = document.getElementById('destinationUrl');
+            const createdAt = document.getElementById('createdAt');
+            const countdownElement = document.getElementById('countdown');
+            const continueBtn = document.getElementById('continueBtn');
+            const cancelBtn = document.getElementById('cancelBtn');
+            
+            // Get issue number from URL path
+            const pathSegments = window.location.pathname.split('/');
+            const issueNumber = pathSegments[pathSegments.length - 1];
+            
+            let countdownTime = 10;
+            let countdownInterval;
+            
+            // Fungsi untuk memulai countdown
+            function startCountdown() {
+                countdownInterval = setInterval(() => {
+                    countdownTime--;
+                    countdownElement.textContent = countdownTime;
+                    
+                    if (countdownTime <= 0) {
+                        clearInterval(countdownInterval);
+                        redirectToDestination();
+                    }
+                }, 1000);
+            }
+            
+            // Fungsi untuk redirect ke tujuan
+            function redirectToDestination() {
+                window.location.href = destinationUrl.href;
+            }
+            
+            // Fungsi untuk membatalkan redirect
+            function cancelRedirect() {
+                clearInterval(countdownInterval);
+                countdownElement.textContent = 'Dibatalkan';
+                countdownElement.style.color = '#ff6b6b';
+            }
+            
+            // Ambil data link dari API
+            async function fetchLinkData() {
+                try {
+                    const response = await fetch(`/api/landing/${issueNumber}`);
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Isi data ke dalam elemen
+                        linkTitle.textContent = data.data.title;
+                        destinationUrl.textContent = data.data.destinationUrl;
+                        destinationUrl.href = data.data.destinationUrl;
+                        createdAt.textContent = data.data.createdAt;
+                        
+                        // Mulai countdown
+                        startCountdown();
+                    } else {
+                        throw new Error(data.message || 'Gagal memuat data link');
+                    }
+                } catch (error) {
+                    linkTitle.textContent = 'Error: Link tidak ditemukan';
+                    destinationUrl.textContent = 'URL tidak valid';
+                    countdownElement.textContent = '0';
+                    countdownElement.style.color = '#ff6b6b';
+                    
+                    console.error('Error fetching link data:', error);
+                }
+            }
+            
+            // Event listeners
+            continueBtn.addEventListener('click', redirectToDestination);
+            cancelBtn.addEventListener('click', cancelRedirect);
+            
+            // Load data
+            fetchLinkData();
+        });
+    </script>
+</body>
+</html>
