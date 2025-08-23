@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar ShortLink - ShortLink Service</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Daftar ShortLink</h1>
+        <p>Kelola dan pantau semua tautan pendek yang telah dibuat</p>
+        
+        <div class="nav">
+            <a href="/" class="nav-link">Beranda</a>
+            <a href="/create" class="nav-link">Buat ShortLink</a>
+            <a href="/list" class="nav-link active">Daftar ShortLink</a>
+        </div>
+        
+        <div class="stats" id="statsContainer">
+            <div class="stat-item">
+                <div class="stat-number" id="totalLinks">0</div>
+                <div class="stat-label">Total Links</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="activeLinks">0</div>
+                <div class="stat-label">Active</div>
+            </div>
+        </div>
+        
+        <button class="btn" id="refreshBtn">🔄 Refresh List</button>
+        
+        <div class="shortlinks-list" id="shortlinksList">
+            <div class="loading-list">
+                <div class="spinner"></div>
+                <p>Memuat daftar shortlink...</p>
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h3>Catatan:</h3>
+            <ul>
+                <li>Status "Active" berarti ShortLink masih dapat diakses</li>
+                <li>Status "Inactive" berarti ShortLink telah ditutup atau diarsipkan</li>
+                <li>Gunakan tombol "Refresh" untuk memperbarui daftar</li>
+                <li>Klik tombol aksi untuk mengelola setiap ShortLink</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/list.js"></script>
+</body>
+</html>
