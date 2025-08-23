@@ -310,7 +310,6 @@
                                 <div class="link-number">#${link.issueNumber}</div>
                                 <div class="link-title">${link.title || 'Tidak ada judul'}</div>
                                 ${link.description ? `<div class="link-description">${truncateText(link.description, 100)}</div>` : ''}
-                                <div class="link-date">Dibuat: ${formatDate(link.createdAt)}</div>
                                 <div class="short-link">${BASE_URL}/${link.issueNumber}</div>
                                 <div class="link-actions">
                                     <button class="action-btn copy-btn" onclick="copyToClipboard('${BASE_URL}/${link.issueNumber}')">
@@ -320,6 +319,8 @@
                                         🔗 Kunjungi
                                     </button>
                                 </div>
+<div class="link-date">Dibuat: ${formatDate(link.createdAt)}</div>
+                                
                             </div>
                         `).join('')}
                     </div>
