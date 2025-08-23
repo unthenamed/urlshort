@@ -3,79 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buat ShortLink - ShortLink Service</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>Buat ShortLink - Simple</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 50%, #0f0f0f 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: rgba(20, 20, 20, 0.8);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #fff;
+            font-size: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: rgba(40, 40, 40, 0.6);
+            color: #fff;
+            font-size: 1rem;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 2px rgba(79, 172, 254, 0.2);
+        }
+        
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #3ba1fd;
+        }
+        
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
+        }
+        
+        .success {
+            background: rgba(46, 125, 50, 0.2);
+            border: 1px solid #2e7d32;
+            display: block;
+        }
+        
+        .error {
+            background: rgba(211, 47, 47, 0.2);
+            border: 1px solid #d32f2f;
+            display: block;
+        }
+        
+        .short-url {
+            word-break: break-all;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .actions button {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .copy-btn {
+            background: #2196f3;
+        }
+        
+        .test-btn {
+            background: #ff9800;
+        }
+        
+        .back-btn {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .back-btn a {
+            color: #4facfe;
+            text-decoration: none;
+        }
+        
+        .back-btn a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <!-- Background Effects -->
-    <div class="bg-effects">
-        <div class="bg-circle circle-1"></div>
-        <div class="bg-circle circle-2"></div>
-    </div>
-    
-    <!-- Main Content -->
     <div class="container">
         <h1>Buat ShortLink</h1>
-        <p>Buat tautan pendek baru menggunakan layanan kami</p>
-        
-        <div class="nav">
-            <a href="/" class="nav-link">Beranda</a>
-            <a href="/create" class="nav-link active">Buat ShortLink</a>
-            <a href="/list" class="nav-link">Daftar ShortLink</a>
-        </div>
         
         <form id="shortenForm">
             <div class="form-group">
-                <label for="destinationUrl">URL Tujuan:</label>
-                <input type="url" id="destinationUrl" class="form-input" 
-                       placeholder="https://example.com" required
-                       pattern="https?://.+" title="Harus dimulai dengan http:// atau https://">
-                <span class="form-small">URL harus valid dan lengkap dengan http/https</span>
+                <label for="url">URL Tujuan:</label>
+                <input type="url" id="url" placeholder="https://example.com" required>
             </div>
             
             <div class="form-group">
-                <label for="linkTitle">Judul Link:</label>
-                <input type="text" id="linkTitle" class="form-input" 
-                       placeholder="Judul untuk link ini" required>
+                <label for="title">Judul Link:</label>
+                <input type="text" id="title" placeholder="Judul untuk link ini" required>
             </div>
             
             <div class="form-group">
-                <label for="issueDescription">Deskripsi Tambahan:</label>
-                <textarea id="issueDescription" class="form-input form-textarea" 
-                          placeholder="Deskripsi tambahan tentang link ini..."></textarea>
+                <label for="description">Deskripsi (opsional):</label>
+                <textarea id="description" rows="3" placeholder="Deskripsi tambahan..."></textarea>
             </div>
             
-            <button type="submit" class="btn">Buat ShortLink</button>
+            <button type="submit">Buat ShortLink</button>
         </form>
         
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Sedang membuat shortlink...</p>
-        </div>
-        
-        <div class="result-container" id="resultContainer">
-            <h3 id="resultTitle">Berhasil!</h3>
+        <div id="result" class="result">
+            <h3 id="resultTitle"></h3>
             <p id="resultMessage"></p>
             <div class="short-url" id="shortUrl"></div>
-            <div class="btn-group">
-                <button class="action-btn copy-btn" id="copyBtn">Salin URL</button>
-                <button class="action-btn test-btn" id="testBtn">Test Link</button>
+            <div class="actions">
+                <button class="copy-btn" id="copyBtn">Salin</button>
+                <button class="test-btn" id="testBtn">Test</button>
             </div>
-            <div id="issueInfo" style="margin-top: 15px; font-size: 0.9rem; color: #b0b0b0;"></div>
         </div>
         
-        <div class="instructions">
-            <h3>Informasi Penting:</h3>
-            <ul>
-                <li>ShortLink akan mengarahkan ke URL tujuan yang Anda masukkan</li>
-                <li>Judul link akan ditampilkan di halaman redirect</li>
-                <li>Setiap ShortLink mendapatkan ID unik berdasarkan nomor issue GitHub</li>
-                <li>Anda dapat melihat semua ShortLink yang dibuat di halaman Daftar ShortLink</li>
-            </ul>
+        <div class="back-btn">
+            <a href="/">Kembali ke Beranda</a>
         </div>
     </div>
 
-    <script src="js/main.js"></script>
-    <script src="js/create.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('shortenForm');
+            const result = document.getElementById('result');
+            const resultTitle = document.getElementById('resultTitle');
+            const resultMessage = document.getElementById('resultMessage');
+            const shortUrl = document.getElementById('shortUrl');
+            const copyBtn = document.getElementById('copyBtn');
+            const testBtn = document.getElementById('testBtn');
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const url = document.getElementById('url').value;
+                const title = document.getElementById('title').value;
+                const description = document.getElementById('description').value;
+                
+                // Validasi URL sederhana
+                if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                    showError('URL harus dimulai dengan http:// atau https://');
+                    return;
+                }
+                
+                try {
+                    const response = await fetch('/api/create-link', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ url, title, description })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        showSuccess(data.data.shortLink, data.data.issueNumber);
+                    } else {
+                        showError(data.message || 'Gagal membuat shortlink');
+                    }
+                } catch (error) {
+                    showError('Terjadi kesalahan: ' + error.message);
+                }
+            });
+            
+            function showSuccess(shortLink, issueNumber) {
+                result.className = 'result success';
+                resultTitle.textContent = 'Berhasil!';
+                resultMessage.textContent = `ShortLink telah dibuat dengan ID: ${issueNumber}`;
+                shortUrl.textContent = shortLink;
+                result.style.display = 'block';
+                
+                // Scroll ke hasil
+                result.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            function showError(message) {
+                result.className = 'result error';
+                resultTitle.textContent = 'Error';
+                resultMessage.textContent = message;
+                shortUrl.textContent = '';
+                result.style.display = 'block';
+                
+                // Scroll ke hasil
+                result.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            copyBtn.addEventListener('click', function() {
+                const textToCopy = shortUrl.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalText = copyBtn.textContent;
+                    copyBtn.textContent = '✓ Disalin';
+                    setTimeout(() => {
+                        copyBtn.textContent = originalText;
+                    }, 2000);
+                }).catch(err => {
+                    alert('Gagal menyalin: ' + err);
+                });
+            });
+            
+            testBtn.addEventListener('click', function() {
+                const testUrl = shortUrl.textContent;
+                window.open(testUrl, '_blank');
+            });
+            
+            // Auto-fill contoh untuk testing
+            document.getElementById('url').value = 'https://example.com';
+            document.getElementById('title').value = 'Contoh Website';
+        });
+    </script>
 </body>
 </html>
