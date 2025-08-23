@@ -3,71 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShortLink Service</title>
-    <style>
-        /* Tambahkan style dasar di sini */
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-    </style>
+    <title>ShortLink Service - 404</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>ShortLink Service</h1>
-    <p>Gunakan form di bawah untuk membuat shortlink baru:</p>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="bg-circle circle-1"></div>
+        <div class="bg-circle circle-2"></div>
+    </div>
     
-    <form id="shortenForm">
-        <div>
-            <label for="url">URL Tujuan:</label>
-            <input type="url" id="url" required>
+    <!-- Main Content -->
+    <div class="container">
+        <h1>ShortLink Service</h1>
+        <p>Layanan pembuatan tautan pendek dengan integrasi GitHub</p>
+        
+        <div class="nav">
+            <a href="/" class="nav-link active">Beranda</a>
+            <a href="/create" class="nav-link">Buat ShortLink</a>
+            <a href="/list" class="nav-link">Daftar ShortLink</a>
         </div>
-        <div>
-            <label for="title">Judul Link:</label>
-            <input type="text" id="title" required>
+        
+        <div class="security-info">
+            <h3>404 - Halaman Tidak Ditemukan</h3>
+            <p>ShortLink yang Anda cari tidak ditemukan atau tidak valid.</p>
+            <p>Silakan periksa kembali URL atau gunakan menu navigasi di atas.</p>
         </div>
-        <div>
-            <label for="description">Deskripsi:</label>
-            <textarea id="description"></textarea>
+        
+        <div class="instructions">
+            <h3>Cara Menggunakan Layanan Ini:</h3>
+            <ol>
+                <li>Kunjungi halaman <a href="/create" style="color: #4facfe;">Buat ShortLink</a> untuk membuat tautan pendek baru</li>
+                <li>Isi formulir dengan URL tujuan dan judul yang diinginkan</li>
+                <li>Salin shortlink yang dihasilkan dan bagikan</li>
+                <li>Pantau semua shortlink Anda di halaman <a href="/list" style="color: #4facfe;">Daftar ShortLink</a></li>
+            </ol>
         </div>
-        <button type="submit">Buat ShortLink</button>
-    </form>
-    
-    <div id="result"></div>
-    
-    <script>
-        // Script untuk handle form submission
-        document.getElementById('shortenForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const url = document.getElementById('url').value;
-            const title = document.getElementById('title').value;
-            const description = document.getElementById('description').value;
-            
-            try {
-                const response = await fetch('/api/create-link', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ url, title, description })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    document.getElementById('result').innerHTML = `
-                        <p>ShortLink berhasil dibuat!</p>
-                        <p>URL ShortLink: <a href="${data.data.shortLink}">${data.data.shortLink}</a></p>
-                    `;
-                } else {
-                    document.getElementById('result').innerHTML = `<p>Error: ${data.message}</p>`;
-                }
-            } catch (error) {
-                document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
-            }
-        });
-    </script>
+        
+        <div class="btn-group">
+            <a href="/create" class="btn">Buat ShortLink Baru</a>
+            <a href="/list" class="btn btn-secondary">Lihat Daftar ShortLink</a>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
 </body>
 </html>
