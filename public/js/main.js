@@ -1,5 +1,5 @@
 // Fungsi umum yang digunakan di semua halaman
-    <script>
+   
         // Create background particles
         function createParticles() {
             const particlesContainer = document.getElementById('particles');
@@ -100,22 +100,6 @@
                 }
             });
         });
-// Inisialisasi background particles
-function createParticles() {
-    const particlesContainer = document.createElement('div');
-    particlesContainer.classList.add('bg-effects');
-    
-    const circle1 = document.createElement('div');
-    circle1.classList.add('bg-circle', 'circle-1');
-    
-    const circle2 = document.createElement('div');
-    circle2.classList.add('bg-circle', 'circle-2');
-    
-    particlesContainer.appendChild(circle1);
-    particlesContainer.appendChild(circle2);
-    
-    document.body.appendChild(particlesContainer);
-}
 
 // Fungsi untuk menampilkan pesan error
 function showError(message, containerId = 'resultContainer') {
